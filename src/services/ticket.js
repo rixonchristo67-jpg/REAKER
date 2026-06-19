@@ -401,18 +401,17 @@ components: []
       footer: { text: `Ticket ID: ${ticketData.id}` }
     });
     
-    const controlRow = new ActionRowBuilder().addComponents(
-      new ButtonBuilder()
-        .setCustomId('ticket_reopen')
-        .setLabel('Reopen Ticket')
-        .setStyle(ButtonStyle.Success)
-        .setEmoji('🔓'),
-      new ButtonBuilder()
-        .setCustomId('ticket_delete')
-        .setLabel('Delete Ticket')
-        .setStyle(ButtonStyle.Danger)
-        .setEmoji('🗑️')
-    );
+    await channel.send({
+  embeds: [closeEmbed]
+});
+
+setTimeout(async () => {
+  try {
+    await deleteTicket(channel, closer);
+  } catch (err) {
+    logger.error(`Failed to auto-delete ticket: ${err.message}`);
+  }
+}, 10000); // 10 seconds
     
     await channel.send({ embeds: [closeEmbed], components: [controlRow] });
     
