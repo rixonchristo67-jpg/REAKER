@@ -103,6 +103,18 @@ export default {
                 );
             }
 
+        if (!stock[product] || stock[product].length === 0) {
+    return InteractionHelper.safeEditReply(interaction, {
+        content: `❌ No ${product} stock available`
+    });
+}
+
+const account = stock[product].shift();
+
+fs.writeFileSync(
+    './src/stock/stock.json',
+    JSON.stringify(stock, null, 2)
+);
             const result = await EconomyService.transferMoney(
                 client, 
                 guildId, 
