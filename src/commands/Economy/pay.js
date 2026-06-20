@@ -158,14 +158,13 @@ fs.writeFileSync(
             });
 
             try {
-                const receiverEmbed = createEmbed({ 
-                    title: "Incoming Payment!", 
-                    description: `${interaction.user.username} paid you **$${amount.toLocaleString()}**.` 
-                }).addFields({
-                    name: "Your New Cash",
-                    value: `$${updatedReceiverData.wallet.toLocaleString()}`,
-                    inline: true,
-                });
+                await receiver.send(
+`📦 ${product}
+
+Email: ${account.email}
+
+Password: ${account.password}`
+);
                 await receiver.send({ embeds: [receiverEmbed] });
             } catch (e) {
                     logger.warn(`Could not DM user ${receiver.id}: ${e.message}`);
