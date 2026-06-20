@@ -13,9 +13,8 @@ export default {
 
         let message = '📦 Current Stock\n\n';
 
-for (const product in stock) {
-    message += `${product}: ${stock[product].length}\n`;
-}
+        for (const product in stock) {
+            message += `${product}: ${stock[product].length}\n`;
         }
 
         await interaction.reply({
