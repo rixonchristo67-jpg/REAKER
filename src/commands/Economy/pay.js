@@ -42,6 +42,10 @@ export default {
             const product = interaction.options.getString("product");
             const guildId = interaction.guildId;
 
+            const stock = JSON.parse(
+            fs.readFileSync('./src/stock/stock.json', 'utf8')
+);
+
             logger.debug(`[ECONOMY] Pay command initiated`, { 
                 senderId, 
                 receiverId: receiver.id,
