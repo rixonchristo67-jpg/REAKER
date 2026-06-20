@@ -6,6 +6,7 @@ import { logger } from '../../utils/logger.js';
 import { InteractionHelper } from '../../utils/interactionHelper.js';
 import { MessageTemplates } from '../../utils/messageTemplates.js';
 import EconomyService from '../../services/economyService.js';
+import fs from 'fs';
 
 export default {
     data: new SlashCommandBuilder()
@@ -18,12 +19,18 @@ export default {
                 .setRequired(true)
         )
         .addIntegerOption(option =>
-            option
-                .setName('amount')
-                .setDescription('Amount to pay')
-                .setRequired(true)
-                .setMinValue(1)
-        ),
+    option
+        .setName('amount')
+        .setDescription('Amount to pay')
+        .setRequired(true)
+        .setMinValue(1)
+)
+.addStringOption(option =>
+    option
+        .setName('product')
+        .setDescription('MCFA, Nitro or Netflix')
+        .setRequired(true)
+),
 
     execute: withErrorHandling(async (interaction, config, client) => {
         const deferred = await InteractionHelper.safeDefer(interaction);
@@ -32,6 +39,7 @@ export default {
             const senderId = interaction.user.id;
             const receiver = interaction.options.getUser("user");
             const amount = interaction.options.getInteger("amount");
+            const product = interaction.options.getString("product");
             const guildId = interaction.guildId;
 
             logger.debug(`[ECONOMY] Pay command initiated`, { 
